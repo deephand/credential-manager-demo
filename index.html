@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Credential Manager Demo Setup</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Highlight.js for code preview -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Credential Manager Demo Setup</h1>
+
+    <!-- Global Settings (Simplified) -->
+    <div class="card mb-6" style="padding: 1rem;">
+      <div class="credential-option" style="margin-bottom: 0;">
+        <label class="credential-checkbox-label" style="border: none; padding: 0;">
+          <input type="checkbox" id="includeFormGlobal">
+          <span>Include Password Form</span>
+        </label>
+      </div>
+    </div>
+
+    <div id="callsParamsContainer">
+      <!-- Dynamic Request Cards will be added here -->
+    </div>
+
+    <button id="addCallBtn" class="btn btn-secondary btn-block mb-6">
+      + Add API Request
+    </button>
+
+    <div class="card" style="text-align: center;">
+      <h2>Execution</h2>
+      <p style="color: #94a3b8; margin-bottom: 1rem;">
+        Ready to test? This will verify browser support and generate the demo link.
+      </p>
+      <button id="createPageBtn" class="btn btn-primary btn-block" style="font-size: 1.2rem;">
+        Create Demo Page
+      </button>
+    </div>
+  </div>
+
+  <footer>
+    Instructed by derinel@google.com, implemented by Gemini ❤️
+  </footer>
+
+  <!-- Templates -->
+  <template id="callCardTemplate">
+    <div class="card call-card" style="padding: 0; overflow: hidden;">
+      <div class="call-card-header accordion-header"
+        style="padding: 1.5rem; margin: 0; background-color: rgba(255,255,255,0.02);">
+        <span class="call-number">Request #1</span>
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <button class="remove-call-btn" title="Remove Request">✕</button>
+          <svg class="icon-chevron" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2">
+            <path d="M6 9l6 6 6-6" />
+          </svg>
+        </div>
+      </div>
+
+      <div class="accordion-content" style="border: none; padding: 0;">
+        <div style="padding: 1.5rem; border-top: 1px solid var(--card-border);">
+          <!-- Trigger Selection -->
+          <div class="form-group">
+            <label>Trigger</label>
+            <div class="radio-group trigger-group">
+              <!-- Filled by JS -->
+            </div>
+          </div>
+
+          <div class="form-group delay-input-group hidden">
+            <label>Delay (ms)</label>
+            <input type="number" class="delay-input" value="1000" min="0" step="100">
+          </div>
+
+          <div class="form-group">
+            <label>Mediation</label>
+            <div class="radio-group mediation-group">
+              <!-- Filled by JS -->
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>UI Mode</label>
+            <div class="radio-group uimode-group">
+              <!-- Filled by JS -->
+            </div>
+          </div>
+
+
+
+          <div class="form-group">
+            <label>Credentials</label>
+
+            <!-- Password -->
+            <div class="credential-option">
+              <label class="credential-checkbox-label">
+                <input type="checkbox" class="cred-type-password" value="password">
+                <span>Password</span>
+              </label>
+            </div>
+
+            <!-- Passkey -->
+            <div class="credential-option">
+              <div class="accordion-header credential-checkbox-label" id="passkey-header">
+                <input type="checkbox" class="cred-type-input" value="public-key">
+                <span style="flex: 1;">Passkey (Public Key)</span>
+                <svg class="icon-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="2">
+                  <path d="M6 9l6 6 6-6" />
+                </svg>
+              </div>
+              <div class="accordion-content">
+                <div class="form-group">
+                  <label>Hints</label>
+                  <div class="radio-group">
+                    <label class="credential-checkbox-label" style="flex: 1; justify-content: center;">
+                      <input type="checkbox" class="hint-checkbox" value="security-key">
+                      <span>Security Key</span>
+                    </label>
+                    <label class="credential-checkbox-label" style="flex: 1; justify-content: center;">
+                      <input type="checkbox" class="hint-checkbox" value="client-device">
+                      <span>Client Device</span>
+                    </label>
+                    <label class="credential-checkbox-label" style="flex: 1; justify-content: center;">
+                      <input type="checkbox" class="hint-checkbox" value="hybrid">
+                      <span>Hybrid</span>
+                    </label>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>User Verification</label>
+                  <div class="radio-group uv-group">
+                    <label class="radio-card">
+                      <input type="radio" name="uv-temp" value="preferred" checked>
+                      <div class="radio-card-content">Preferred</div>
+                    </label>
+                    <label class="radio-card">
+                      <input type="radio" name="uv-temp" value="required">
+                      <div class="radio-card-content">Required</div>
+                    </label>
+                    <label class="radio-card">
+                      <input type="radio" name="uv-temp" value="discouraged">
+                      <div class="radio-card-content">Discouraged</div>
+                    </label>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="credential-checkbox-label">
+                    <input type="checkbox" class="related-origin-check">
+                    <span>Use Related Origin (deephand-related-origin.netlify.app)</span>
+                  </label>
+                </div>
+                <div class="form-group">
+                  <label title="Timeout for immediate requests to fail faster">Timeout (ms)</label>
+                  <input type="number" class="timeout-input" value="30000">
+                </div>
+              </div>
+            </div>
+
+            <!-- FedCM -->
+            <div class="credential-option">
+              <div class="accordion-header credential-checkbox-label" id="fedcm-header">
+                <input type="checkbox" class="cred-type-input" value="fedcm">
+                <span style="flex: 1;">FedCM (Identity)</span>
+                <svg class="icon-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="2">
+                  <path d="M6 9l6 6 6-6" />
+                </svg>
+              </div>
+              <div class="accordion-content">
+                <div class="form-group">
+                  <label>Mode</label>
+                  <div class="radio-group identity-mode-group">
+                    <label class="radio-card">
+                      <input type="radio" name="fedcm-mode-temp" value="" checked>
+                      <div class="radio-card-content">Default</div>
+                    </label>
+                    <label class="radio-card">
+                      <input type="radio" name="fedcm-mode-temp" value="active">
+                      <div class="radio-card-content">Active</div>
+                    </label>
+                    <label class="radio-card">
+                      <input type="radio" name="fedcm-mode-temp" value="passive">
+                      <div class="radio-card-content">Passive</div>
+                    </label>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>Provider Config URL</label>
+                  <input type="text" class="fedcm-provider-input"
+                    value="https://fedcm-idp-demo.onrender.com/fedcm.json">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Per-Call Preview -->
+          <div class="preview-section" style="margin-top: 1rem;">
+            <button class="btn btn-secondary btn-sm toggle-preview-btn"
+              style="width: 100%; text-align: left; display: flex; justify-content: space-between; align-items: center;">
+              <span>Show Code Preview</span>
+              <svg class="icon-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2">
+                <path d="M6 9l6 6 6-6" />
+              </svg>
+            </button>
+            <div class="accordion-content preview-content">
+              <div class="json-viewer" style="margin-top: 0.5rem;">
+                <pre><code class="language-javascript">/* Code will appear here */</code></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <script type="module" src="setup.js"></script>
+</body>
+
+</html>

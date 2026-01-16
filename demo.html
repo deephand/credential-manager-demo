@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Credential Manager Demo Execution</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Highlight.js for code preview -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <style>
+    /* Minimal demo-specific styles */
+    body {
+      padding: 2rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .log-entry {
+      font-family: monospace;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+      padding: 0.5rem;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .log-info {
+      color: #94a3b8;
+    }
+
+    .log-success {
+      color: #4ade80;
+    }
+
+    .log-warn {
+      color: #fbbf24;
+    }
+
+    .log-error {
+      color: #f87171;
+    }
+
+    #executionLog {
+      max-height: 300px;
+      overflow-y: auto;
+      background: #0f172a;
+      padding: 1rem;
+      border-radius: 8px;
+      border: 1px solid #334155;
+    }
+
+    .boolean {
+      color: #d19a66;
+    }
+
+    .string {
+      color: #98c379;
+    }
+
+    details>summary {
+      list-style: none;
+    }
+
+    details>summary::-webkit-details-marker {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container" style="max-width: 100%;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+      <h1>Credential Manager Demo</h1>
+      <a href="index.html" class="btn btn-secondary">← Back to Setup</a>
+    </div>
+
+    <div id="featureWarning" class="card hidden"
+      style="border-left: 4px solid #ef4444; background: rgba(239,68,68,0.1);"></div>
+
+    <div id="executionContainer">
+      <!-- Steps will be rendered here -->
+    </div>
+
+    <div class="card mt-6">
+      <h3>Execution Log</h3>
+      <div id="executionLog"></div>
+    </div>
+
+    <div class="card mt-6">
+      <h3>Last Result</h3>
+      <pre id="resultViewer"
+        style="background: #0f172a; padding: 1rem; border-radius: 8px; overflow-x: auto; color: #e2e8f0;"></pre>
+    </div>
+  </div>
+
+  <template id="stepContainerTemplate">
+    <div class="card step-card mb-6" style="border-left: 4px solid var(--primary);">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <h3 class="step-title" style="margin: 0;">Step #1</h3>
+        <span class="step-status" style="font-weight: bold; color: #94a3b8;">Pending</span>
+      </div>
+      <div class="step-content">
+        <!-- Action Buttons / Auto-run Status -->
+      </div>
+    </div>
+  </template>
+
+  <script type="module" src="script.js"></script>
+</body>
+
+</html>

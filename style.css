@@ -1,0 +1,389 @@
+:root {
+  /* Light Mode (Default) */
+  --bg-color: #f8fafc;
+  /* Slate 50 */
+  --text-color: #334155;
+  /* Slate 700 */
+  --card-bg: #ffffff;
+  --card-border: #e2e8f0;
+  /* Slate 200 */
+  --primary: #2563eb;
+  /* Blue 600 */
+  --primary-hover: #1d4ed8;
+  /* Blue 700 */
+  --primary-light: rgba(37, 99, 235, 0.1);
+  --danger: #ef4444;
+  /* Red 500 */
+  --success: #22c55e;
+  /* Green 500 */
+  --accent: #8b5cf6;
+  /* Violet 500 */
+  --code-bg: #f1f5f9;
+  /* Slate 100 */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-color: #0f172a;
+    /* Slate 900 */
+    --text-color: #e2e8f0;
+    /* Slate 200 */
+    --card-bg: #1e293b;
+    /* Slate 800 */
+    --card-border: #334155;
+    /* Slate 700 */
+    --primary: #3b82f6;
+    /* Blue 500 */
+    --primary-hover: #2563eb;
+    /* Blue 600 */
+    --primary-light: rgba(59, 130, 246, 0.2);
+    --code-bg: #0d1117;
+  }
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Utilities */
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  width: 100%;
+  flex: 1;
+  /* Push footer down */
+}
+
+.hidden {
+  display: none !important;
+}
+
+.mb-6 {
+  margin-bottom: 1.5rem;
+}
+
+.mt-6 {
+  margin-top: 1.5rem;
+}
+
+/* Typography */
+h1,
+h2,
+h3 {
+  color: var(--text-color);
+  /* Adaptive */
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+h1 {
+  font-size: 2.5rem;
+  background: linear-gradient(to right, var(--primary), var(--accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+/* Cards */
+.card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Form Elements */
+label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: var(--text-color);
+  opacity: 0.9;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="password"],
+select {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: var(--bg-color);
+  border: 1px solid var(--card-border);
+  border-radius: 0.5rem;
+  color: var(--text-color);
+  font-size: 1rem;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="password"]:focus,
+select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px var(--primary-light);
+}
+
+/* Radio Group styling (Tailwind-like cards) */
+.radio-group {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.radio-card {
+  position: relative;
+  flex: 1;
+  min-width: 120px;
+}
+
+.radio-card input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.radio-card-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem;
+  background-color: var(--bg-color);
+  border: 1px solid var(--card-border);
+  border-radius: 0.5rem;
+  text-align: center;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: var(--text-color);
+}
+
+.radio-card input[type="radio"]:checked+.radio-card-content {
+  background-color: var(--primary-light);
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.radio-card:hover .radio-card-content {
+  border-color: #94a3b8;
+  /* Slate 400 */
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+  font-size: 1rem;
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-hover);
+}
+
+.btn-secondary {
+  background-color: var(--card-border);
+  color: var(--text-color);
+}
+
+.btn-secondary:hover {
+  background-color: var(--bg-color);
+  border: 1px solid #94a3b8;
+}
+
+.btn-danger {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: var(--danger);
+}
+
+.btn-danger:hover {
+  background-color: rgba(239, 68, 68, 0.2);
+}
+
+.btn-block {
+  width: 100%;
+}
+
+.btn-sm {
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+}
+
+/* Accordions */
+.credential-option {
+  margin-bottom: 1rem;
+}
+
+/* Main Call Card Header */
+.call-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  padding: 0.5rem 0;
+  user-select: none;
+}
+
+.accordion-header {
+  /* For sub-accordions, logic handled by classes below */
+}
+
+.accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out, padding 0.3s ease;
+  padding: 0;
+  border-left: 2px solid var(--card-border);
+  margin-left: 0.5rem;
+  padding-left: 1rem;
+}
+
+/* Sub-Accordion */
+.credential-option.accordion-open .accordion-content {
+  max-height: 1000px;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+/* Unified Checkbox/Accordion Header Look */
+.credential-checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background-color: var(--bg-color);
+  border: 1px solid var(--card-border);
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  color: var(--text-color);
+}
+
+/* When acting as accordion header */
+.credential-option .accordion-header.credential-checkbox-label {
+  margin-bottom: 0;
+  /* Align with content */
+}
+
+.credential-checkbox-label:hover {
+  background-color: var(--card-bg);
+  border-color: var(--primary);
+}
+
+.credential-checkbox-label input[type="checkbox"] {
+  width: 1.25rem;
+  height: 1.25rem;
+  accent-color: var(--primary);
+}
+
+.icon-chevron {
+  transition: transform 0.2s;
+  color: var(--text-color);
+}
+
+/* Rotate Chevron when open */
+.credential-option.accordion-open .icon-chevron,
+.call-card-header.accordion-open .icon-chevron,
+.toggle-preview-btn.accordion-open .icon-chevron {
+  transform: rotate(180deg);
+}
+
+/* JSON Viewer / Code Preview */
+.json-viewer pre,
+.json-viewer code {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.9rem;
+}
+
+/* Ensure parsed code blocks are readable */
+.hljs {
+  background: #1e1e1e !important;
+  padding: 1rem !important;
+  border-radius: var(--radius);
+  overflow-x: auto;
+  color: #abb2bf;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.json-viewer {
+  background-color: var(--code-bg);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.875rem;
+  color: var(--text-color);
+  border: 1px solid var(--card-border);
+}
+
+/* Call Card Numbers */
+.call-number {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.remove-call-btn {
+  color: #94a3b8;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.25rem;
+}
+
+.remove-call-btn:hover {
+  color: var(--danger);
+  background-color: rgba(239, 68, 68, 0.1);
+}
+
+.form-group {
+  margin-bottom: 1.25rem;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 2rem;
+  color: #94a3b8;
+  font-size: 0.9rem;
+  border-top: 1px solid var(--card-border);
+  margin-top: auto;
+}
