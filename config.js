@@ -68,7 +68,7 @@ export const CREDENTIAL_TYPES = {
 };
 
 export const MEDIATION_MODES = [
-  { value: 'optional', label: 'Optional (Default)' },
+  { value: 'optional', label: 'Empty (default=Optional)' },
   { value: 'required', label: 'Required' },
   { value: 'silent', label: 'Silent' },
   { value: 'conditional', label: 'Conditional' }

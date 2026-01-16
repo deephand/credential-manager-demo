@@ -10,7 +10,7 @@ let callCount = 0;
 
 /* --- Code Generation Logic (Per Call) --- */
 function generateCallCode(config, index) {
-  let output = `/* --- Call #${index + 1} (${config.trigger}) --- */\n`;
+  let output = `/* --- Request #${index + 1} (${config.trigger}) --- */\n`;
   output += `// Feature Checks\n`;
   if (config.types.includes('public-key')) {
     output += `if (window.PublicKeyCredential) { ... }\n`;
@@ -20,7 +20,11 @@ function generateCallCode(config, index) {
   }
 
   output += `\nconst options = {\n`;
-  output += `  mediation: '${config.mediation}',\n`;
+
+  if (config.mediation && config.mediation !== 'optional') {
+    output += `  mediation: '${config.mediation}',\n`;
+  }
+
   if (config.uiMode) output += `  uiMode: '${config.uiMode}',\n`;
 
   if (config.types.includes('password')) {

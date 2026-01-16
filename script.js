@@ -6,8 +6,7 @@ const resultViewer = document.getElementById('resultViewer');
 const featureWarning = document.getElementById('featureWarning');
 const stepTemplate = document.getElementById('stepContainerTemplate');
 
-// Global Promise Chain for sequential execution of auto-runs
-let executionChain = Promise.resolve();
+
 
 /* --- Logging --- */
 function log(message, type = 'info') {
@@ -80,7 +79,7 @@ function renderGlobalForm() {
   // Label
   const label = document.createElement('div');
   label.className = 'form-label-tag';
-  label.textContent = "Global Login Form";
+  label.textContent = "Login Form";
   form.appendChild(label);
 
   // Inputs (One set for the whole page)
@@ -191,7 +190,11 @@ function renderStep(stepId, config) {
 
   // Execution Action
   const runAction = async () => {
-    statusBox.textContent = "Executing...";
+    // Reset visuals
+    statusBox.textContent = "Awaiting response...";
+    statusBox.style.color = "";
+    card.classList.remove('success', 'error');
+
     log(`Request #${stepId}: execute() started...`, 'info');
 
     try {
@@ -203,6 +206,7 @@ function renderStep(stepId, config) {
       if (credential) {
         statusBox.textContent = "Success";
         statusBox.style.color = "var(--success)";
+        card.classList.add('success');
         log(`Request #${stepId}: Success! Type: ${credential.type}`, 'success');
         displayResult(credential);
       } else {
@@ -212,6 +216,7 @@ function renderStep(stepId, config) {
     } catch (err) {
       statusBox.textContent = `Error: ${err.name}`;
       statusBox.style.color = "var(--danger)";
+      card.classList.add('error');
       log(`Request #${stepId} Error: ${err.message} (${err.name})`, 'error');
       displayResult({ error: err.name, message: err.message });
     }
@@ -232,26 +237,23 @@ function renderStep(stepId, config) {
 
   } else if (config.trigger === 'load' || config.trigger === 'load-delay') {
     const delay = config.trigger === 'load-delay' ? config.delay : 0;
-    statusBox.textContent = `Scheduled (Delay: ${delay}ms)...`;
 
-    const autoMsg = document.createElement('div');
-    autoMsg.innerHTML = `<em>Auto-run scheduled...</em>`;
-    contentBox.appendChild(autoMsg);
-
-    // Queue Execution
-    executionChain = executionChain.then(async () => {
-      if (delay > 0) {
-        await new Promise(r => setTimeout(r, delay));
-      }
-      return runAction();
-    });
+    // Just execute independently
+    if (delay > 0) {
+      statusBox.textContent = `Scheduled (Delay: ${delay}ms)...`;
+      setTimeout(() => runAction(), delay);
+    } else {
+      runAction();
+    }
   }
 }
 
 function buildCredentialParams(config) {
-  const options = {
-    mediation: config.mediation,
-  };
+  const options = {};
+
+  if (config.mediation && config.mediation !== 'optional') {
+    options.mediation = config.mediation;
+  }
 
   if (config.uiMode) {
     options.uiMode = config.uiMode;
